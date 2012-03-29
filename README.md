@@ -7,15 +7,17 @@ You can read all about it here: [Open eBay Apps Developers Zone](http://develope
 
 Note: The examples are for a Rails app.
 
-* Add our gem to your `Gemfile`
+* Add our gem to your Gemfile:
+
 `gem 'omniauth-ebay'`
 
 * Add to your omniauth initializer (`config/initializers/omniauth.rb`) the ebay strategy like so:
 
-
+```ruby
     Rails.application.config.middleware.use OmniAuth::Builder do
        provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl"
     end
+```
 
 Insert your app credentials in the given order. You can find out these details by going into your developer's account at [eBay DevZone](https://developer.ebay.com/DevZone/account/)
 

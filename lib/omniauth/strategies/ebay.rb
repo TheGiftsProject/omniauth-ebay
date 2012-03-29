@@ -1,5 +1,4 @@
 require 'omniauth'
-require 'lib/ebay_api'
 
 module OmniAuth
   module Strategies

@@ -1,2 +1,3 @@
-gem 'omniauth'
-gem 'httpclient'
+source "http://rubygems.org"
+
+gemspec

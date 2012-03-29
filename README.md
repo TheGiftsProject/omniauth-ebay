@@ -1,11 +1,9 @@
-OmniAuth eBay
-====================================
+# OmniAuth eBay
 
 In this gem you will find an OmniAuth eBay strategy that is compliant with the Open eBay Apps API.
 You can read all about it here: [Open eBay Apps Developers Zone](http://developer.ebay.com/DevZone/open-ebay-apps/Concepts/OpeneBayUGDev.html)
 
-Usage
-------------------------------------------
+## Usage
 
 Note: The examples are for a Rails app.
 
@@ -14,11 +12,9 @@ Note: The examples are for a Rails app.
 
 * Add to your omniauth initializer (`config/initializers/omniauth.rb`) the ebay strategy like so:
 
-`Rails.application.config.middleware.use OmniAuth::Builder do
-
-   provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl"
-
-end`
+    Rails.application.config.middleware.use OmniAuth::Builder do
+       provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl"
+    end
 
 Insert your app credentials in the given order. You can find out these details by going into your developer's account at [eBay DevZone](https://developer.ebay.com/DevZone/account/)
 
@@ -28,17 +24,17 @@ You will need to define the callback path in your relevant app RUname, so don't 
 * Set a route to the callback path of your sessions controller, and handle the session creation there. You will be able to access
 the omniauth session data by accessing `request.env['omniauth.auth']`
 
-How it Works
-====================================
+# How it Works
 
-Request Phase
---------------------
+The ebay strategy module uses the standard omniauth strategy module, and it also uses a small module
+designed just for the eBay API calls.
+
+## Request Phase
 
 * API call to eBay, requesting a session id.
 * Redirecting to eBay login with the session id.
 
-Callback Phase
------------------------------------------
+## Callback Phase
 
 * API call to eBay, requesting an ebay auth token, with the secret id and username retrieved from the request.
 * API call to eBay, requesting the user's info by using the ebay auth token from the last call.
@@ -49,5 +45,6 @@ Callback Phase
 `ebay_token` - The current session's auth token, to be used for API calls.
 
 `email` - The user's email address.
+
 * Extra data - We're also passing an optional parameter, `return_to`, which allows you to specify a URL you want the redirect the user to when the authentication process is completed.
 

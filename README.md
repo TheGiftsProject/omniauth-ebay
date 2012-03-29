@@ -12,6 +12,7 @@ Note: The examples are for a Rails app.
 
 * Add to your omniauth initializer (`config/initializers/omniauth.rb`) the ebay strategy like so:
 
+
     Rails.application.config.middleware.use OmniAuth::Builder do
        provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl"
     end

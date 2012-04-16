@@ -36,6 +36,8 @@ module OmniAuth
       def request_phase
         session_id = generate_session_id
         redirect ebay_login_url(session_id)
+      rescue Exception => ex
+        fail!("Failed to retrieve session id from ebay", ex)
       end
 
       #4: We'll get to the callback phase by setting our accept/reject URL in the ebay application settings(/auth/ebay/callback)
@@ -52,18 +54,6 @@ module OmniAuth
       def raw_info
         @user_info
       end
-
-      protected
-
-      def ebay_login_url(session_id)
-        #TODO: Refactor ruparams to receive all of the request query string
-        url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{URI.escape(session_id).gsub('+', '%2B')}"
-        if request.params[:return_to]
-          url << "&ruparams=#{CGI::escape('return_to=' + request.params['return_to'])}"
-        end
-        return url
-      end
-
     end
   end
 end

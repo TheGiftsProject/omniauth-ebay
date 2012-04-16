@@ -9,8 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["itayadler@gmail.com"]
   s.homepage    = "https://github.com/TheGiftsProject/omniauth-ebay"
   s.summary     = %q{OmniAuth strategy for eBay}
-  s.description = %q{In this gem you will find an OmniAuth eBay strategy that is compliant with the Open eBay Apps API.
-You can read all about it here: [Open eBay Apps Developers Zone](http://developer.ebay.com/DevZone/open-ebay-apps/Concepts/OpeneBayUGDev.html)}
+  s.description = %q{In this gem you will find an OmniAuth eBay strategy that is compliant with the Open eBay Apps API.}
 
   s.rubyforge_project = "omniauth-ebay"
 
@@ -21,4 +20,10 @@ You can read all about it here: [Open eBay Apps Developers Zone](http://develope
 
   s.add_runtime_dependency 'omniauth', '~> 1.0'
   s.add_development_dependency 'rspec', '~> 2.7'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'multi_xml'
+  s.add_development_dependency 'rack-test'
+  s.add_development_dependency 'vcr'
+  s.add_development_dependency 'fakeweb'
+  s.add_development_dependency 'capybara-mechanize'
 end

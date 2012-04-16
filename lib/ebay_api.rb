@@ -1,3 +1,5 @@
+require 'multi_xml'
+
 module EbayAPI
 
   EBAY_LOGIN_URL = "https://signin.ebay.com/ws/eBayISAPI.dll"
@@ -16,7 +18,7 @@ module EbayAPI
     END
 
     response = api(X_EBAY_API_GETSESSIONID_CALL_NAME, request)
-    MultiXml.parse(response.content)["GetSessionIDResponse"]["SessionID"]
+    MultiXml.parse(response)["GetSessionIDResponse"]["SessionID"]
   end
 
   def get_auth_token(username, secret_id)
@@ -31,7 +33,7 @@ module EbayAPI
     END
 
     response = api(X_EBAY_API_FETCHAUTHTOKEN_CALL_NAME, request)
-    MultiXml.parse(response.content)["FetchTokenResponse"]["eBayAuthToken"]
+    MultiXml.parse(response)["FetchTokenResponse"]["eBayAuthToken"]
   end
 
   def get_user_info(auth_token)
@@ -45,15 +47,27 @@ module EbayAPI
     END
 
     response = api(X_EBAY_API_GETUSER_CALL_NAME, request)
-    MultiXml.parse(response.content)["GetUserResponse"]['User']
+    MultiXml.parse(response)["GetUserResponse"]['User']
+  end
+
+  def ebay_login_url(session_id)
+    #TODO: Refactor ruparams to receive all of the request query string
+    url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{URI.escape(session_id).gsub('+', '%2B')}"
+    if request.params[:return_to]
+      url << "&ruparams=#{CGI::escape('return_to=' + request.params['return_to'])}"
+    end
+    return url
   end
 
   protected
 
   def api(call_name, request)
     headers = ebay_request_headers(call_name, request.length.to_s)
-    http = HTTPClient.new
-    http.post(options.apiurl, request, headers)
+    url = URI.parse(options.apiurl)
+    req = Net::HTTP::Post.new(url.path, headers)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.start { |http| http.request(req, request) }.body
   end
 
   def ebay_request_headers(call_name, request_length)
@@ -68,5 +82,4 @@ module EbayAPI
         'Content-Length' => request_length
     }
   end
-
 end

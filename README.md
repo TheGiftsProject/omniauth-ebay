@@ -5,7 +5,7 @@ You can read all about it here: [Open eBay Apps Developers Zone](http://develope
 
 ## Usage
 
-Note: The examples are for a Rails app.
+Note: The examples are for a Rails 3 app.
 
 * Add our gem to your Gemfile:
 
@@ -26,6 +26,10 @@ You will need to define the callback path in your relevant app RUname, so don't 
 
 * Set a route to the callback path of your sessions controller, and handle the session creation there. You will be able to access
 the omniauth session data by accessing `request.env['omniauth.auth']`
+
+## Requirements
+
+Ruby 1.8.7+, Rails 3.0+, OmniAuth 1.0+.
 
 # How it Works
 

@@ -1,5 +1,7 @@
 # OmniAuth eBay
 
+![OmniAuth-Ebay!](http://dl.dropbox.com/u/7525692/omniauthebay.png)
+
 In this gem you will find an OmniAuth eBay strategy that is compliant with the Open eBay Apps API.
 You can read all about it here: [Open eBay Apps Developers Zone](http://developer.ebay.com/DevZone/open-ebay-apps/Concepts/OpeneBayUGDev.html)
 

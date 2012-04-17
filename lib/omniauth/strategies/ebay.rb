@@ -26,7 +26,7 @@ module OmniAuth
 
       extra do
         {
-            :return_to => request.params["return_to"]
+            :return_to => request.params['return_to']
         }
       end
 

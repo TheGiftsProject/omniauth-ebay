@@ -77,7 +77,7 @@ module EbayAPI
         'X-EBAY-API-DEV-NAME' => options.devid,
         'X-EBAY-API-APP-NAME' => options.appid,
         'X-EBAY-API-CERT-NAME' => options.certid,
-        'X-EBAY-API-SITEID' => options.siteid,
+        'X-EBAY-API-SITEID' => options.siteid.to_s,
         'Content-Type' => X_EBAY_API_REQUEST_CONTENT_TYPE,
         'Content-Length' => request_length
     }

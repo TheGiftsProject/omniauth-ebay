@@ -53,8 +53,8 @@ module EbayAPI
   def ebay_login_url(session_id)
     #TODO: Refactor ruparams to receive all of the request query string
     url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{URI.escape(session_id).gsub('+', '%2B')}"
-    return_to = request.params['return_to'] || request.params[:return_to]
-    url << "&ruparams=#{CGI::escape('return_to=' + return_to)}" if return_to
+    internal_return_to = request.params['internal_return_to'] || request.params[:internal_return_to]
+    url << "&ruparams=#{CGI::escape('internal_return_to=' + internal_return_to)}" if internal_return_to
 
     return url
   end

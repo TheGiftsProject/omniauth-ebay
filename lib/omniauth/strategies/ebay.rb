@@ -48,7 +48,7 @@ module OmniAuth
         @user_info = get_user_info(@auth_token)
         super
       rescue Exception => ex
-        fail!("Failed to retrieve user info from ebay", ex)
+        fail!("Failed to retrieve user info from ebay %s"%ex.message(), ex)
       end
 
       def raw_info

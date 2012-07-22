@@ -45,7 +45,7 @@ module OmniAuth
       #6: Request the user info from eBay
       def callback_phase
         @auth_token = get_auth_token(request.params["username"], request.params["sid"])
-        @user_info = get_user_info(@auth_token)
+        @user_info = get_user_info(request.params["username"], @auth_token)
         super
       rescue Exception => ex
         fail!("Failed to retrieve user info from ebay %s"%ex.message(), ex)

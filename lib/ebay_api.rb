@@ -10,19 +10,19 @@ module EbayAPI
   X_EBAY_API_GETUSER_CALL_NAME = 'GetUser'
 
   def generate_session_id
-    request = <<-END
+    request = %Q(
           <?xml version="1.0" encoding="utf-8"?>
           <GetSessionIDRequest xmlns="urn:ebay:apis:eBLBaseComponents">
             <RuName>#{options.runame}</RuName>
           </GetSessionIDRequest>
-    END
+    )
 
     response = api(X_EBAY_API_GETSESSIONID_CALL_NAME, request)
     MultiXml.parse(response)["GetSessionIDResponse"]["SessionID"]
   end
 
   def get_auth_token(username, secret_id)
-    request = <<-END
+    request = %Q(
           <?xml version="1.0" encoding="utf-8"?>
           <FetchTokenRequest xmlns="urn:ebay:apis:eBLBaseComponents">
              <RequesterCredentials>
@@ -30,21 +30,24 @@ module EbayAPI
              </RequesterCredentials>
              <SecretID>#{secret_id.gsub(' ', '+')}</SecretID>
           </FetchTokenRequest>
-    END
+    )
 
     response = api(X_EBAY_API_FETCHAUTHTOKEN_CALL_NAME, request)
     MultiXml.parse(response)["FetchTokenResponse"]["eBayAuthToken"]
   end
 
-  def get_user_info(auth_token)
-    request = <<-END
+  def get_user_info(username, auth_token)
+    request = %Q(
           <?xml version="1.0" encoding="utf-8"?>
           <GetUserRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+            <DetailLevel>ReturnAll</DetailLevel>
+            <UserID>#{username}</UserID>
             <RequesterCredentials>
               <eBayAuthToken>#{auth_token}</eBayAuthToken>
             </RequesterCredentials>
+            <WarningLevel>High</WarningLevel>
           </GetUserRequest>
-    END
+    )
 
     response = api(X_EBAY_API_GETUSER_CALL_NAME, request)
     MultiXml.parse(response)["GetUserResponse"]['User']
@@ -56,7 +59,7 @@ module EbayAPI
     internal_return_to = request.params['internal_return_to'] || request.params[:internal_return_to]
     url << "&ruparams=#{CGI::escape('internal_return_to=' + internal_return_to)}" if internal_return_to
 
-    return url
+    url
   end
 
   protected
@@ -67,7 +70,7 @@ module EbayAPI
     req = Net::HTTP::Post.new(url.path, headers)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    http.start { |http| http.request(req, request) }.body
+    http.start { |h| h.request(req, request) }.body
   end
 
   def ebay_request_headers(call_name, request_length)

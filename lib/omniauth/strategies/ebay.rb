@@ -21,8 +21,8 @@ module OmniAuth
             :ebay_id => raw_info['UserID'],
             :ebay_token => @auth_token,
             :email => raw_info['Email'],
-            :full_name => raw_info["RegistrationAddress"].try(:[], "Name"),
-            :country => raw_info["RegistrationAddress"].try(:[], "Country")
+            :full_name => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Name"],
+            :country => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Country"]
         }
       end
 
@@ -38,7 +38,7 @@ module OmniAuth
       def request_phase
         session_id = generate_session_id
         redirect ebay_login_url(session_id)
-      rescue Exception => ex
+      rescue => ex
         fail!("Failed to retrieve session id from ebay", ex)
       end
 
@@ -49,8 +49,8 @@ module OmniAuth
         @auth_token = get_auth_token(request.params["username"], request.params["sid"])
         @user_info = get_user_info(request.params["username"], @auth_token)
         super
-      rescue Exception => ex
-        fail!("Failed to retrieve user info from ebay %s"%ex.message(), ex)
+      rescue => ex
+        fail!("Failed to retrieve user info from ebay", ex)
       end
 
       def raw_info

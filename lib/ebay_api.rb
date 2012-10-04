@@ -2,6 +2,16 @@ require 'multi_xml'
 
 module EbayAPI
 
+  class EbayApiError < StandardError
+    attr_accessor :request, :response
+
+    def initialize(message=nil, request=nil, response=nil)
+      super(message)
+      @request = request
+      @response = response
+    end
+  end
+
   EBAY_LOGIN_URL = "https://signin.ebay.com/ws/eBayISAPI.dll"
   X_EBAY_API_REQUEST_CONTENT_TYPE = 'text/xml'
   X_EBAY_API_COMPATIBILITY_LEVEL = '675'
@@ -18,7 +28,14 @@ module EbayAPI
     )
 
     response = api(X_EBAY_API_GETSESSIONID_CALL_NAME, request)
-    MultiXml.parse(response)["GetSessionIDResponse"]["SessionID"]
+    parsed_response = MultiXml.parse(response)
+    session_id = parsed_response && parsed_response["GetSessionIDResponse"] && parsed_response["GetSessionIDResponse"]["SessionID"]
+
+    if (!session_id)
+      raise EbayApiError.new("Failed to generate session id", request, response)
+    end
+
+    session_id
   end
 
   def get_auth_token(username, secret_id)
@@ -33,7 +50,14 @@ module EbayAPI
     )
 
     response = api(X_EBAY_API_FETCHAUTHTOKEN_CALL_NAME, request)
-    MultiXml.parse(response)["FetchTokenResponse"]["eBayAuthToken"]
+    parsed_response = MultiXml.parse(response)
+    token = parsed_response && parsed_response["FetchTokenResponse"] && parsed_response["FetchTokenResponse"]["eBayAuthToken"]
+
+    if (!token)
+      raise EbayApiError.new("Failed to retrieve auth token", request, response)
+    end
+
+    token
   end
 
   def get_user_info(username, auth_token)
@@ -50,7 +74,14 @@ module EbayAPI
     )
 
     response = api(X_EBAY_API_GETUSER_CALL_NAME, request)
-    MultiXml.parse(response)["GetUserResponse"]['User']
+    parsed_response = MultiXml.parse(response)
+    user = parsed_response && parsed_response["GetUserResponse"] && parsed_response["GetUserResponse"]["User"]
+
+    if (!user)
+      raise EbayApiError.new("Failed to retrieve user info", request, response)
+    end
+
+    user
   end
 
   def ebay_login_url(session_id)

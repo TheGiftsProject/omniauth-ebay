@@ -86,10 +86,27 @@ module EbayAPI
 
   def ebay_login_url(session_id)
     #TODO: Refactor ruparams to receive all of the request query string
-    url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{URI.escape(session_id).gsub('+', '%2B')}"
-    internal_return_to = request.params['internal_return_to'] || request.params[:internal_return_to]
-    url << "&ruparams=#{CGI::escape('internal_return_to=' + internal_return_to)}" if internal_return_to
 
+    ru_params = []
+    session_id = URI.escape(session_id).gsub('+', '%2B')
+
+    internal_return_to = request.params['internal_return_to'] || request.params[:internal_return_to]
+
+    if (internal_return_to)
+      internal_return_to_params = 'internal_return_to=' + internal_return_to
+      ru_params << internal_return_to_params
+    end
+
+    if (options.auth_type == OmniAuth::Strategies::Ebay::AuthType::Simple)
+      url = "#{EBAY_LOGIN_URL}?SignIn&runame=#{options.runame}&SessId=#{session_id}"
+
+      session_id_params = 'sid=' + session_id
+      ru_params << session_id_params
+    else
+      url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{session_id}"
+    end
+
+    url << "&ruparams=#{CGI::escape(ru_params.join('&'))}" unless ru_params.empty?
     url
   end
 

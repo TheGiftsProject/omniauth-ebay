@@ -6,7 +6,12 @@ module OmniAuth
       include OmniAuth::Strategy
       include EbayAPI
 
-      args [:runame, :devid, :appid, :certid, :siteid, :apiurl]
+      module AuthType
+        SSO = 'sso'
+        Simple = 'simple'
+      end
+
+      args [:runame, :devid, :appid, :certid, :siteid, :apiurl, :auth_type]
       option :name, "ebay"
       option :runame, nil
       option :devid, nil
@@ -14,6 +19,7 @@ module OmniAuth
       option :certid, nil
       option :siteid, nil
       option :apiurl, nil
+      option :auth_type, AuthType::SSO
 
       uid { raw_info['EIASToken'] }
       info do

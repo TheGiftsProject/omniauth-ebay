@@ -1,0 +1,113 @@
+--- 
+recorded_with: VCR 2.0.1
+http_interactions: 
+- request: 
+    method: post
+    uri: https://api.ebay.com/ws/api.dll
+    body: 
+      string: "          <?xml version=\"1.0\" encoding=\"utf-8\"?>\n          <FetchTokenRequest xmlns=\"urn:ebay:apis:eBLBaseComponents\">\n             <RequesterCredentials>\n               <Username>test_user</Username>\n             </RequesterCredentials>\n             <SecretID>fake</SecretID>\n          </FetchTokenRequest>\n"
+    headers: 
+      x-ebay-api-call-name: 
+      - FetchToken
+      accept: 
+      - "*/*"
+      content-type: 
+      - text/xml
+      x-ebay-api-app-name: 
+      - a219dda1-87b5-11e1-b0c4-0800200c9a66
+      content-length: 
+      - "350"
+      x-ebay-api-dev-name: 
+      - bdc8a861-87b5-11e1-b0c4-0800200c9a66
+      x-ebay-api-cert-name: 
+      - cf9340f3-87b5-11e1-b0c4-0800200c9a66
+      x-ebay-api-siteid: 
+      - "0"
+      x-ebay-api-compatibility-level: 
+      - "675"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      x-ebay-api-pool-name: 
+      - 11212345690123456722222
+      x-ebay-esb-siteid: 
+      - "0"
+      content-type: 
+      - text/xml
+      x-ebay-esb-guid: 
+      - fak:uuid:Fakefakefakefakefakefakefakefak
+      x-ebay-esb-app-name: 
+      - fakefake-fake-fake-fake-fakefakefake
+      server: 
+      - Apache-Coyote/1.1
+      content-length: 
+      - "1219"
+      x-ebay-esb-call-name: 
+      - FetchToken
+      date: 
+      - Mon, 16 Apr 2012 11:13:26 GMT
+      x-ebay-api-server-name: 
+      - ___ffffffffffffffffffffffffffffffffffffffffffff
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <FetchTokenResponse xmlns="urn:ebay:apis:eBLBaseComponents"><Timestamp>2012-04-16T11:13:26.603Z</Timestamp><Ack>Success</Ack><Version>767</Version><Build>E767_CORE_BUNDLED_14671989_R1</Build><eBayAuthToken>fake</eBayAuthToken><HardExpirationTime>2013-10-08T08:36:50.000Z</HardExpirationTime></FetchTokenResponse>
+    http_version: "1.1"
+  recorded_at: Mon, 16 Apr 2012 11:12:58 GMT
+- request: 
+    method: post
+    uri: https://api.ebay.com/ws/api.dll
+    body: 
+      string: "          <?xml version=\"1.0\" encoding=\"utf-8\"?>\n          <GetUserRequest xmlns=\"urn:ebay:apis:eBLBaseComponents\">\n            <RequesterCredentials>\n              <eBayAuthToken>fake</eBayAuthToken>\n            </RequesterCredentials>\n          </GetUserRequest>\n"
+    headers: 
+      x-ebay-api-call-name: 
+      - GetUser
+      accept: 
+      - "*/*"
+      content-type: 
+      - text/xml
+      x-ebay-api-app-name: 
+      - a219dda1-87b5-11e1-b0c4-0800200c9a66
+      content-length: 
+      - "350"
+      x-ebay-api-dev-name: 
+      - bdc8a861-87b5-11e1-b0c4-0800200c9a66
+      x-ebay-api-cert-name: 
+      - cf9340f3-87b5-11e1-b0c4-0800200c9a66
+      x-ebay-api-siteid: 
+      - "0"
+      x-ebay-api-compatibility-level: 
+      - "675"
+  response: 
+    status: 
+      code: 200
+      message: OK
+    headers: 
+      x-ebay-api-pool-name: 
+      - fake 
+      x-ebay-esb-siteid: 
+      - "0"
+      content-type: 
+      - text/xml
+      x-ebay-esb-guid: 
+      - fake 
+      x-ebay-esb-app-name: 
+      - fake
+      server: 
+      - Apache-Coyote/1.1
+      content-length: 
+      - "2162"
+      x-ebay-esb-call-name: 
+      - GetUser
+      date: 
+      - Mon, 16 Apr 2012 11:13:30 GMT
+      x-ebay-api-server-name: 
+      - ___dm8ucis2MTZkMzB8KTYzKzczLTQ2MS09MD07NT43
+    body: 
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetUserResponse xmlns="urn:ebay:apis:eBLBaseComponents"><Timestamp>2012-04-16T11:13:31.701Z</Timestamp><Ack>Success</Ack><Version>767</Version><Build>E767_CORE_BUNDLED_14671989_R1</Build><User><AboutMePage>false</AboutMePage><EIASToken>fake_eias_token</EIASToken><Email>test@user.com</Email><FeedbackScore>27</FeedbackScore><UniqueNegativeFeedbackCount>0</UniqueNegativeFeedbackCount><UniquePositiveFeedbackCount>0</UniquePositiveFeedbackCount><PositiveFeedbackPercent>0.0</PositiveFeedbackPercent><FeedbackPrivate>false</FeedbackPrivate><FeedbackRatingStar>Yellow</FeedbackRatingStar><IDVerified>false</IDVerified><eBayGoodStanding>true</eBayGoodStanding><NewUser>false</NewUser><RegistrationDate>2000-01-01T07:06:10.000Z</RegistrationDate><Site>US</Site><Status>Confirmed</Status><UserID>test_user</UserID><UserIDChanged>false</UserIDChanged><UserIDLastChanged>2004-01-02T19:18:59.000Z</UserIDLastChanged><VATStatus>NoVATTax</VATStatus><SellerInfo><AllowPaymentEdit>true</AllowPaymentEdit><CheckoutEnabled>true</CheckoutEnabled><CIPBankAccountStored>false</CIPBankAccountStored><GoodStanding>true</GoodStanding><LiveAuctionAuthorized>false</LiveAuctionAuthorized><MerchandizingPref>OptIn</MerchandizingPref><QualifiesForB2BVAT>false</QualifiesForB2BVAT><SellerGuaranteeLevel>NotEligible</SellerGuaranteeLevel><SchedulingInfo><MaxScheduledMinutes>30240</MaxScheduledMinutes><MinScheduledMinutes>0</MinScheduledMinutes><MaxScheduledItems>3000</MaxScheduledItems></SchedulingInfo><StoreOwner>false</StoreOwner><PaymentMethod>NothingOnFile</PaymentMethod><CharityRegistered>false</CharityRegistered><SafePaymentExempt>true</SafePaymentExempt><TransactionPercent>0.0</TransactionPercent><RecoupmentPolicyConsent/></SellerInfo><PayPalAccountLevel>Verified</PayPalAccountLevel><PayPalAccountType>Personal</PayPalAccountType><PayPalAccountStatus>Active</PayPalAccountStatus><eBayWikiReadOnly>false</eBayWikiReadOnly><MotorsDealer>false</MotorsDealer><UniqueNeutralFeedbackCount>0</UniqueNeutralFeedbackCount><EnterpriseSeller>false</EnterpriseSeller></User></GetUserResponse>
+    http_version: "1.1"
+  recorded_at: Mon, 16 Apr 2012 11:13:03 GMT

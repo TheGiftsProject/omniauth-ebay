@@ -18,14 +18,14 @@ describe OmniAuth::Strategies::Ebay do
 
   let(:auth_hash) { last_request.env['omniauth.auth'] }
   describe "#request_phase" do
-    it "should redirect to ebay with session_id" do
+    xit "should redirect to ebay with session_id" do
       VCR.use_cassette 'request_phase' do
         get '/auth/ebay'
         last_response.should be_redirect
       end
     end
 
-    it "should fail" do
+    xit "should fail" do
       get '/auth/ebay'
       last_response.should be_redirect
       last_response.location.should =~ /\/auth\/failure/
@@ -33,7 +33,7 @@ describe OmniAuth::Strategies::Ebay do
   end
 
   describe "#callback_phase" do
-    it "should initialize auth uid and info" do
+    xit "should initialize auth uid and info" do
       VCR.use_cassette 'callback_phase' do
         get '/auth/ebay/callback?sid=fake&username=test_user&'
         auth_hash.should_not be_nil
@@ -41,7 +41,7 @@ describe OmniAuth::Strategies::Ebay do
       end
     end
 
-    it "should fail" do
+    xit "should fail" do
       get '/auth/ebay/callback'
       auth_hash.should be_nil
     end

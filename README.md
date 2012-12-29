@@ -1,4 +1,4 @@
-# OmniAuth eBay
+# OmniAuth eBay [![Build Status](https://secure.travis-ci.org/TheGiftsProject/omniauth-ebay.png)](http://travis-ci.org/TheGiftsProject/omniauth-ebay)
 
 ![OmniAuth-Ebay!](http://dl.dropbox.com/u/7525692/omniauthebay.png)
 
@@ -17,11 +17,14 @@ Note: The examples are for a Rails 3 app.
 
 ```ruby
     Rails.application.config.middleware.use OmniAuth::Builder do
-       provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl"
+       provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl", "auth_type"
     end
 ```
 
 Insert your app credentials in the given order. You can find out these details by going into your developer's account at [eBay DevZone](https://developer.ebay.com/DevZone/account/)
+
+`auth_type` - The only optional argument when initializing the strategy, by default it's configured to SSO(SingleSignOn),
+and should be changed to AuthType::Simple (SignIn), as it's the standard option.
 
 * To use the strategy, you will need to access it's omniauth provider path: `/auth/ebay`. The callback phase path is the default one: `/auth/ebay/callback`.
 You will need to define the callback path in your relevant app RUname, so don't forget to set the accept/reject paths in the devzone to the callback path.
@@ -55,5 +58,8 @@ designed just for the eBay API calls.
 
 `email` - The user's email address.
 
-* Extra data - We're also passing an optional parameter, `return_to`, which allows you to specify a URL you want the redirect the user to when the authentication process is completed.
+`full_name` - The user's registered full name.
 
+`country` - The user's registered country.
+
+* Extra data - We're also passing an optional parameter, `return_to`, which allows you to specify a URL you want the redirect the user to when the authentication process is completed.

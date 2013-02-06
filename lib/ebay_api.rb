@@ -1,4 +1,5 @@
 require 'multi_xml'
+require 'active_support/core_ext/object/to_query'
 
 module EbayAPI
 
@@ -27,8 +28,7 @@ module EbayAPI
           </GetSessionIDRequest>
     )
 
-    response = api(X_EBAY_API_GETSESSIONID_CALL_NAME, request)
-    parsed_response = MultiXml.parse(response)
+    parsed_response, response = api(X_EBAY_API_GETSESSIONID_CALL_NAME, request)
     session_id = parsed_response && parsed_response["GetSessionIDResponse"] && parsed_response["GetSessionIDResponse"]["SessionID"]
 
     if (!session_id)
@@ -49,8 +49,7 @@ module EbayAPI
           </FetchTokenRequest>
     )
 
-    response = api(X_EBAY_API_FETCHAUTHTOKEN_CALL_NAME, request)
-    parsed_response = MultiXml.parse(response)
+    parsed_response, response = api(X_EBAY_API_FETCHAUTHTOKEN_CALL_NAME, request)
     token = parsed_response && parsed_response["FetchTokenResponse"] && parsed_response["FetchTokenResponse"]["eBayAuthToken"]
 
     if (!token)
@@ -73,8 +72,7 @@ module EbayAPI
           </GetUserRequest>
     )
 
-    response = api(X_EBAY_API_GETUSER_CALL_NAME, request)
-    parsed_response = MultiXml.parse(response)
+    parsed_response, response = api(X_EBAY_API_GETUSER_CALL_NAME, request)
     user = parsed_response && parsed_response["GetUserResponse"] && parsed_response["GetUserResponse"]["User"]
 
     if (!user)
@@ -84,11 +82,12 @@ module EbayAPI
     user
   end
 
-  def ebay_login_url(session_id)
-    #TODO: Refactor ruparams to receive all of the request query string
-    url = "#{EBAY_LOGIN_URL}?SingleSignOn&runame=#{options.runame}&sid=#{URI.escape(session_id).gsub('+', '%2B')}"
-    internal_return_to = request.params['internal_return_to'] || request.params[:internal_return_to]
-    url << "&ruparams=#{CGI::escape('internal_return_to=' + internal_return_to)}" if internal_return_to
+  def ebay_login_url(session_id, ruparams={})
+    url = "#{EBAY_LOGIN_URL}?#{options.auth_type}&runame=#{options.runame}&#{session_id_field_name}=#{CGI::escape(session_id)}"
+
+    ruparams[:internal_return_to] = internal_return_to if internal_return_to
+    ruparams[:sid] = session_id
+    url << "&ruparams=#{ruparams.to_query.gsub("=", "%3D").gsub("&", "%26")}" unless ruparams.empty?
 
     url
   end
@@ -101,7 +100,8 @@ module EbayAPI
     req = Net::HTTP::Post.new(url.path, headers)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
-    http.start { |h| h.request(req, request) }.body
+    response = http.start { |h| h.request(req, request) }.body
+    [MultiXml.parse(response), response]
   end
 
   def ebay_request_headers(call_name, request_length)
@@ -116,4 +116,19 @@ module EbayAPI
         'Content-Length' => request_length
     }
   end
+
+  private
+
+  def internal_return_to
+    request.params['internal_return_to'] || request.params[:internal_return_to]
+  end
+
+  def session_id_field_name
+    if options.auth_type == OmniAuth::Strategies::Ebay::AuthType::SSO
+      OmniAuth::Strategies::Ebay::AuthType::SSO_SID_FIELD_NAME
+    else
+      OmniAuth::Strategies::Ebay::AuthType::SIMPLE_SID_FIELD_NAME
+    end
+  end
+
 end

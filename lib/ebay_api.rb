@@ -83,7 +83,8 @@ module EbayAPI
   end
 
   def ebay_login_url(session_id, ruparams={})
-    url = "#{EBAY_LOGIN_URL}?#{options.auth_type}&runame=#{options.runame}&#{session_id_field_name}=#{URI.escape(session_id).gsub('+', '%2B')}"
+    login_url = options.loginurl || EBAY_LOGIN_URL
+    url = "#{login_url}?#{options.auth_type}&runame=#{options.runame}&#{session_id_field_name}=#{URI.escape(session_id).gsub('+', '%2B')}"
 
     ruparams[:internal_return_to] = internal_return_to if internal_return_to
     ruparams[:sid] = session_id

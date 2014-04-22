@@ -32,40 +32,62 @@ describe EbayAPI do
       subject.ebay_login_url(unescaped_session_id).should include("sid=#{CGI.escape(unescaped_session_id)}")
     end
 
-    context :SingleSignOn do
-      it "should return ebay login url with internal return to when internal_return_to given in request" do
+    context :sandbox do
+      it "should return the sandbox ebay login/api urls when sandbox environment is specified" do
         subject.stub(:internal_return_to) { internal_return_to }
         params = {}
         params[:internal_return_to] = internal_return_to
         params[:sid] = session_id
-        subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_LOGIN_URL}?#{singleSignOn}&runame=runame&sid=#{session_id}&ruparams=#{to_query(params)}"
-      end
-
-      it "should return ebay login url without internal return to when internal_return_to isn't given in request" do
-        subject.stub(:internal_return_to) { false }
-        params = {}
-        params[:sid] = session_id
-        subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_LOGIN_URL}?#{singleSignOn}&runame=runame&sid=#{session_id}&ruparams=#{to_query(params)}"
+        subject.options.environment = :sandbox
+        subject.login_url.should == EbayAPI::EBAY_SANDBOX_LOGIN_URL
+        subject.api_url.should == EbayAPI::EBAY_SANDBOX_XML_API_URL
       end
     end
 
-    context :SignIn do
-      before :each do
-        subject.options.auth_type = OmniAuth::Strategies::Ebay::AuthType::Simple
-      end
-      it "should return ebay login url with internal_return_to when internal_return_to given in request" do
+    context :production do
+      it "should return the production login/api urls when production environment is specified" do
         subject.stub(:internal_return_to) { internal_return_to }
         params = {}
         params[:internal_return_to] = internal_return_to
         params[:sid] = session_id
-        subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_LOGIN_URL}?#{signIn}&runame=runame&SessId=#{session_id}&ruparams=#{to_query(params)}"
+        subject.login_url.should == EbayAPI::EBAY_PRODUCTION_LOGIN_URL
+        subject.api_url.should == EbayAPI::EBAY_PRODUCTION_XML_API_URL
+      end
+      context :SingleSignOn do
+        it "should return ebay login url with internal return to when internal_return_to given in request" do
+          subject.stub(:internal_return_to) { internal_return_to }
+          params = {}
+          params[:internal_return_to] = internal_return_to
+          params[:sid] = session_id
+          subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_PRODUCTION_LOGIN_URL}?#{singleSignOn}&runame=runame&sid=#{session_id}&ruparams=#{to_query(params)}"
+        end
+
+        it "should return ebay login url without internal return to when internal_return_to isn't given in request" do
+          subject.stub(:internal_return_to) { false }
+          params = {}
+          params[:sid] = session_id
+          subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_PRODUCTION_LOGIN_URL}?#{singleSignOn}&runame=runame&sid=#{session_id}&ruparams=#{to_query(params)}"
+        end
       end
 
-      it "should return ebay login url without internal return to when internal_return_to isn't given in request" do
-        subject.stub(:internal_return_to) { false }
-        params = {}
-        params[:sid] = session_id
-        subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_LOGIN_URL}?#{signIn}&runame=runame&SessId=#{session_id}&ruparams=#{to_query(params)}"
+      context :SignIn do
+        before :each do
+          subject.options.auth_type = OmniAuth::Strategies::Ebay::AuthType::Simple
+        end
+        it "should return ebay login url with internal_return_to when internal_return_to given in request" do
+          subject.stub(:internal_return_to) { internal_return_to }
+          params = {}
+          params[:internal_return_to] = internal_return_to
+          params[:sid] = session_id
+          subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_PRODUCTION_LOGIN_URL}?#{signIn}&runame=runame&SessId=#{session_id}&ruparams=#{to_query(params)}"
+        end
+
+        it "should return ebay login url without internal return to when internal_return_to isn't given in request" do
+          subject.stub(:internal_return_to) { false }
+          params = {}
+          params[:sid] = session_id
+          subject.ebay_login_url(session_id).should == "#{EbayAPI::EBAY_PRODUCTION_LOGIN_URL}?#{signIn}&runame=runame&SessId=#{session_id}&ruparams=#{to_query(params)}"
+        end
       end
     end
 

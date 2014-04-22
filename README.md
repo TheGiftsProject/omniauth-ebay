@@ -17,13 +17,15 @@ Note: The examples are for a Rails 3 app.
 
 ```ruby
     Rails.application.config.middleware.use OmniAuth::Builder do
-       provider :ebay, "runame", "devid", "appid", "certid", "siteid", "apiurl", "auth_type"
+       provider :ebay, "runame", "devid", "appid", "certid", "siteid", "environment", "auth_type"
     end
 ```
 
 Insert your app credentials in the given order. You can find out these details by going into your developer's account at [eBay DevZone](https://developer.ebay.com/DevZone/account/)
 
-`auth_type` - The only optional argument when initializing the strategy, by default it's configured to SSO(SingleSignOn),
+`environment` - Defaults to `:production` and other valid option is `:sandbox`
+
+`auth_type` - An optional argument when initializing the strategy, by default it's configured to SSO(SingleSignOn),
 and should be changed to AuthType::Simple (SignIn), as it's the standard option.
 
 * To use the strategy, you will need to access it's omniauth provider path: `/auth/ebay`. The callback phase path is the default one: `/auth/ebay/callback`.

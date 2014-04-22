@@ -13,7 +13,27 @@ module EbayAPI
     end
   end
 
-  EBAY_LOGIN_URL = "https://signin.ebay.com/ws/eBayISAPI.dll"
+  EBAY_PRODUCTION_LOGIN_URL = "https://signin.ebay.com/ws/eBayISAPI.dll"
+  EBAY_SANDBOX_LOGIN_URL = "https://signin.sandbox.ebay.com/ws/eBayISAPI.dll"
+
+  EBAY_PRODUCTION_XML_API_URL = "https://api.ebay.com/ws/api.dll"
+  EBAY_SANDBOX_XML_API_URL = "https://api.sandbox.ebay.com/ws/api.dll"
+
+
+  def sandbox?
+    options.environment == :sandbox
+  end
+
+  def login_url
+    return EBAY_SANDBOX_LOGIN_URL if sandbox?
+    EBAY_PRODUCTION_LOGIN_URL
+  end
+
+  def api_url
+    return EBAY_SANDBOX_XML_API_URL if sandbox?
+    EBAY_PRODUCTION_XML_API_URL
+  end
+
   X_EBAY_API_REQUEST_CONTENT_TYPE = 'text/xml'
   X_EBAY_API_COMPATIBILITY_LEVEL = '675'
   X_EBAY_API_GETSESSIONID_CALL_NAME = 'GetSessionID'
@@ -83,7 +103,6 @@ module EbayAPI
   end
 
   def ebay_login_url(session_id, ruparams={})
-    login_url = options.loginurl || EBAY_LOGIN_URL
     url = "#{login_url}?#{options.auth_type}&runame=#{options.runame}&#{session_id_field_name}=#{URI.escape(session_id).gsub('+', '%2B')}"
 
     ruparams[:internal_return_to] = internal_return_to if internal_return_to
@@ -97,7 +116,7 @@ module EbayAPI
 
   def api(call_name, request)
     headers = ebay_request_headers(call_name, request.length.to_s)
-    url = URI.parse(options.apiurl)
+    url = URI.parse(api_url)
     req = Net::HTTP::Post.new(url.path, headers)
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true

@@ -14,16 +14,15 @@ module OmniAuth
         SIMPLE_SID_FIELD_NAME = "SessId"
       end
 
-      args [:runame, :devid, :appid, :certid, :siteid, :apiurl, :auth_type, :loginurl]
+      args [:runame, :devid, :appid, :certid, :siteid, :environment, :auth_type]
       option :name, "ebay"
       option :runame, nil
       option :devid, nil
       option :appid, nil
       option :certid, nil
       option :siteid, nil
-      option :apiurl, nil
+      option :environment, :production
       option :auth_type, AuthType::SSO
-      option :loginurl, nil
 
       uid { raw_info['EIASToken'] }
       info do

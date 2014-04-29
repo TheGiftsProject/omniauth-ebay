@@ -14,7 +14,7 @@ module OmniAuth
         SIMPLE_SID_FIELD_NAME = "SessId"
       end
 
-      args [:runame, :devid, :appid, :certid, :siteid, :environment, :auth_type]
+      args [:runame, :devid, :appid, :certid, :siteid, :environment, :auth_type, :ruparams]
       option :name, "ebay"
       option :runame, nil
       option :ruparams, {}

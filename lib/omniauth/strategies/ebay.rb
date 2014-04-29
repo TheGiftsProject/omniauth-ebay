@@ -17,6 +17,7 @@ module OmniAuth
       args [:runame, :devid, :appid, :certid, :siteid, :environment, :auth_type]
       option :name, "ebay"
       option :runame, nil
+      option :ruparams, {}
       option :devid, nil
       option :appid, nil
       option :certid, nil
@@ -46,7 +47,7 @@ module OmniAuth
       #3: Redirect to eBay Login URL with the RUName and SessionID
       def request_phase
         session_id = generate_session_id
-        redirect ebay_login_url(session_id)
+        redirect ebay_login_url(session_id, ruparams)
       rescue => ex
         fail!("Failed to retrieve session id from ebay", ex)
       end

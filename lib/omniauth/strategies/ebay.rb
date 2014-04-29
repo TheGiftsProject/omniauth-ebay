@@ -14,15 +14,15 @@ module OmniAuth
         SIMPLE_SID_FIELD_NAME = "SessId"
       end
 
-      args [:runame, :devid, :appid, :certid, :siteid, :environment, :auth_type, :ruparams]
+      args [:runame, :devid, :appid, :certid, :siteid, :environment, :ruparams, :auth_type]
       option :name, "ebay"
       option :runame, nil
-      option :ruparams, {}
       option :devid, nil
       option :appid, nil
       option :certid, nil
       option :siteid, nil
       option :environment, :production
+      option :ruparams, {}
       option :auth_type, AuthType::SSO
 
       uid { raw_info['EIASToken'] }
@@ -47,7 +47,7 @@ module OmniAuth
       #3: Redirect to eBay Login URL with the RUName and SessionID
       def request_phase
         session_id = generate_session_id
-        redirect ebay_login_url(session_id, ruparams)
+        redirect ebay_login_url(session_id, options.ruparams)
       rescue => ex
         fail!("Failed to retrieve session id from ebay", ex)
       end

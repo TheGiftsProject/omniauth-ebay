@@ -1,0 +1,70 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.ebay.com/ws/api.dll
+    body:
+      encoding: UTF-8
+      string: "\n          <?xml version=\"1.0\" encoding=\"utf-8\"?>\n          <GetSessionIDRequest
+        xmlns=\"urn:ebay:apis:eBLBaseComponents\">\n            <RuName>runame</RuName>\n
+        \         </GetSessionIDRequest>\n    "
+    headers:
+      x-ebay-api-call-name:
+      - GetSessionID
+      x-ebay-api-compatibility-level:
+      - '675'
+      x-ebay-api-dev-name:
+      - devid
+      x-ebay-api-app-name:
+      - appid
+      x-ebay-api-cert-name:
+      - certid
+      x-ebay-api-siteid:
+      - siteid
+      content-type:
+      - text/xml
+      content-length:
+      - '195'
+      accept-encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      accept:
+      - "*/*"
+      user-agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      content-type:
+      - text/xml
+      guid:
+      - 15193499-3ef0-a621-4441-5931dfb89df3
+      server:
+      - Apache-Coyote/1.1
+      x-ebay-api-pool-name:
+      - ___cDRidW90amJobm1saHNv
+      x-ebay-api-server-name:
+      - ___dm97MmQ3MWYrPjc3NCgyNSg/NSs+NS00MjI5PTY/Mg==
+      x-ebay-esb-app-name:
+      - appid
+      x-ebay-esb-call-name:
+      - GetSessionID
+      x-ebay-esb-guid:
+      - urn:uuid:3ea6770f-15fc-4b9e-95d1-298d78ee85d9
+      x-ebay-esb-siteid:
+      - siteid
+      x-ebay-request-id:
+      - 15193499-3ef0-a621-4441-5931dfb89df3!ws.api.dll!10.98.20.68!esbtrading[
+      date:
+      - Fri, 11 Dec 2015 23:04:10 GMT
+      content-length:
+      - '732'
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <GetSessionIDResponse xmlns="urn:ebay:apis:eBLBaseComponents"><Timestamp>2015-12-11T23:04:11.480Z</Timestamp><Ack>Failure</Ack><Errors><ShortMessage>Invalid value for header &quot;X-EBAY-API-SITEID&quot;.</ShortMessage><LongMessage>Header &quot;X-EBAY-API-SITEID&quot; with value &quot;siteid&quot; is out of range.</LongMessage><ErrorCode>10012</ErrorCode><SeverityCode>Error</SeverityCode><ErrorParameters ParamID="0"><Value>X-EBAY-API-SITEID</Value></ErrorParameters><ErrorParameters ParamID="1"><Value>siteid</Value></ErrorParameters><ErrorClassification>RequestError</ErrorClassification></Errors><Version>941</Version><Build>E941_INTL_APISIGNIN_17686168_R1</Build></GetSessionIDResponse>
+    http_version: '1.1'
+  recorded_at: Fri, 11 Dec 2015 23:04:11 GMT
+recorded_with: VCR 3.0.0

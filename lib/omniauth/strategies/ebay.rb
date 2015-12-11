@@ -31,13 +31,22 @@ module OmniAuth
             :ebay_token => @auth_token,
             :email => raw_info['Email'],
             :full_name => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Name"],
-            :country => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Country"]
+            :country => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Country"],
+            :name => raw_info["RegistrationAddress"] && raw_info["RegistrationAddress"]["Name"],
+            :nickname => raw_info["UserID"],
+        }
+      end
+
+      credentials do
+        {
+          :token => @auth_token,
         }
       end
 
       extra do
         {
-            :internal_return_to => request.params['internal_return_to'] || request.params[:internal_return_to]
+            :internal_return_to => request.params['internal_return_to'] || request.params[:internal_return_to],
+            :raw_info => raw_info,
         }
       end
 

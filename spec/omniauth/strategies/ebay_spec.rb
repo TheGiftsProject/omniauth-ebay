@@ -41,7 +41,23 @@ describe OmniAuth::Strategies::Ebay do
       VCR.use_cassette 'callback_phase' do
         get '/auth/ebay/callback?sid=fake&username=test_user&'
         auth_hash.should_not be_nil
+
         auth_hash.uid.should == 'fake_eias_token'
+
+        auth_hash["info"].should_not be_nil
+        auth_hash["info"]["name"].should == "Fake Name"
+        auth_hash["info"]["nickname"].should == "test_user"
+        auth_hash["info"]["email"].should == "test@user.com"
+        auth_hash["info"]["country"].should == "US"
+
+        auth_hash["credentials"].should_not be_nil
+        auth_hash["credentials"]["token"].should == "fake_auth_token"
+
+        auth_hash["extra"].should_not be_nil
+        # returns entire response from GetUser
+        auth_hash["extra"]["raw_info"]["Email"].should == "test@user.com"
+        auth_hash["extra"]["raw_info"]["UserID"].should == "test_user"
+        auth_hash["extra"]["raw_info"]["Status"].should == "Confirmed"
       end
     end
 

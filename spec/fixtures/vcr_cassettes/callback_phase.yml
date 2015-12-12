@@ -24,7 +24,7 @@ http_interactions:
       x-ebay-api-siteid: 
       - "0"
       x-ebay-api-compatibility-level: 
-      - "675"
+      - "941"
   response: 
     status: 
       code: 200
@@ -79,7 +79,7 @@ http_interactions:
       x-ebay-api-siteid: 
       - "0"
       x-ebay-api-compatibility-level: 
-      - "675"
+      - "941"
   response: 
     status: 
       code: 200
